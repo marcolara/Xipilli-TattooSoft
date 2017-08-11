@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <h1>Is it really you?</h1>
+    <p><a href="http://www.tattoosoft.com/web/account/$user.emailAddress.toLowerCase()/validate?token=$esc.url($user.confirmationToken)">Click here</a> to confirm your email address.</p>
+    <p>If the above link does not work, you can paste the following address into your browser:</p>
+    <p>http://www.tattoosoft.com/web/account/$user.emailAddress.toLowerCase()/validate?token=$user.confirmationToken</p>
+    <p>You will be asked to log into your account to confirm this email address. Be sure to log in with your current primary email address.</p>
+    <p>We ask you to confirm your email address before receiving invitations or alerts from TattooSoft.</p>
+    <p>This is the address you will log in with, and the address to which we will deliver all email messages regarding account information and other system mail.</p>
+    <p>Thank you and enjoy TattooSoft!</p>
+    <p>PS: If you did not register to use our services, simply ignore this email and nothing will happen.</p>
+  </body>
+</html>

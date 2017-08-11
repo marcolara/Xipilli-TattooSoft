@@ -1,0 +1,49 @@
+/***
+ **  @(#) xipilli.com
+ **
+ **  (C) Copyright 2011 xipilli.com, All rights reserved.
+ **
+ **
+ **  THIS COMPUTER SOFTWARE IS THE PROPERTY OF xipilli.
+ **
+ **  This program code and all derivatives thereof are the sole property of
+ **  xipilli.com.  Recipient and/or user, by accepting this source
+ **  code, agrees that neither this source code nor any part thereof
+ **  shall be reproduced, copied, adapted, distributed, used, displayed
+ **  or transferred to any party, or used or disclosed to others for
+ **  development, consulting, or any other purpose except as specifically
+ **   authorized in writing by xipilli.com.
+ **
+ **  @version xipilli-persistence 1.0
+ **  (C) Copyright 2011 xipilli.com, All rights reserved.
+ **
+ **/
+$pojo.getPackageDeclaration()
+
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+$secondpassclassimports
+
+$templates.PojoTypeDeclaration {
+
+#if(!$pojo.isInterface())
+
+$templates.PojoFields
+
+$templates.PojoConstructors
+
+$templates.PojoPropertyAccessors
+
+$templates.PojoToString
+
+$templates.PojoEqualsHashcode
+
+#else
+
+$templates.PojoInterfacePropertyAccessors
+
+#end
+
+$templates.PojoExtraClassCode
+
+}

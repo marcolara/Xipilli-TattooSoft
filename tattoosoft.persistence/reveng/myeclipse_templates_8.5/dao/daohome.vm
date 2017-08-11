@@ -1,0 +1,121 @@
+/***
+**  @(#) tattoosoft.com
+**
+**  (C) Copyright 2011 tattoosoft.com, All rights reserved.
+**
+**
+**  THIS COMPUTER SOFTWARE IS THE PROPERTY OF TATTOOSOFT.
+**
+**  This program code and all derivatives thereof are the sole property of
+**  tattoosoft.com.  Recipient and/or user, by accepting this source
+**  code, agrees that neither this source code nor any part thereof
+**  shall be reproduced, copied, adapted, distributed, used, displayed
+**  or transferred to any party, or used or disclosed to others for
+**  development, consulting, or any other purpose except as specifically
+**   authorized in writing by tattoosoft.com.
+**
+**  @version tattoosoft.persistence 1.0
+**  (C) Copyright 2011 tattoosoft.com, All rights reserved.
+**
+**/
+$pojo.getPackageDeclaration()
+#set($declarationName=$pojo.importType($pojo.getDeclarationName()))
+## the following line simply ensures that List is imported.
+#set($_forImport1=$pojo.importType("java.util.List"))
+//<revengImports>
+    import com.tattoosoft.persistence.model.${declarationName};
+    $secondpassclassimports
+    //</revengImports>
+    /**
+    * DAO providing persistence and search support for $declarationName entities.  Save, update, and
+    * delete transactions are managed by the custom tattoosoft base dao that this extends.  Common
+    * finder support is also implements at the base level.
+    *
+    * @see $pojo.getQualifiedDeclarationName()
+    *
+    * Generated using template:
+    * - tattoosoft-persistence\reveng\tattoosoft-myeclipse_templates_8.5\dao\daohome.vm
+    */
+    #set($className="${declarationName}DAO")
+    public class $className extends $pojo.importType("xipilli.persistence.dao.AbstractBaseDAO")<${declarationName}> {
+        //<revengLogSuppress/>
+        @SuppressWarnings("unused")
+        private static final $pojo.importType("org.slf4j.Logger") log = ${pojo.importType("org.slf4j.LoggerFactory")}.getLogger(${className}.class);
+        public static final String SPRING_BEAN_ID = ${className}.class.getSimpleName();
+        #if ($hibernateDaoSupport)
+            public static $className getFromApplicationContext($pojo.importType("org.springframework.context.ApplicationContext") ctx) {
+            return ($className)ctx.getBean(SPRING_BEAN_ID);
+            }
+        #end
+        #set($_classnameCamelCase="${declarationName.toString().substring(0,1).toLowerCase()}${declarationName.toString().substring(1)}")
+        //id property constant
+        #set($_idPropertyName="id")
+        public static final String $pojo.getConstantString($_idPropertyName) = "$_idPropertyName";
+        #if ($generatePreciseFindBy)
+            //property constants
+            #foreach($property in $pojo.getFindByIterator())
+                public static final String $pojo.getConstantString($property.Name) = "$property.Name";
+            #end
+        #end
+        public ${className}() {
+        super(${declarationName}.class, ${pojo.getConstantString($_idPropertyName)});
+        }
+        /****** Property finder convenience methods: **************************************************/
+        #macro(generatePreciseFunctions)
+            #if ($generatePreciseFindBy)
+                #foreach($property in $pojo.getFindByIterator())
+                    #if($pojo.getMetaAttribAsBool($property, "gen-property", true))
+                        public List<${declarationName}> findBy$pojo.getPropertyName($property)(Object $property.Name
+                            #if ($paginate)
+                                , int...rowStartIdxAndCount
+                            #end
+                            ) {
+                            return findByProperty($pojo.getConstantString($property.Name), $property.Name
+                            #if ($paginate)
+                                , rowStartIdxAndCount
+                            #end
+                            );
+                            }
+                            public ${declarationName} findUniqueBy$pojo.getPropertyName($property)(Object $property.Name) {
+                            return findUniqueByProperty($pojo.getConstantString($property.Name), $property.Name);
+                            }
+                    #end
+                #end
+            #end
+        #end
+        #set ($currSession='getHibernateTemplate()')
+        #set ($criSession='getSession()')
+        #generatePreciseFunctions()
+        #foreach($queryName in $cfg.namedQueries.keySet())
+            #if($queryName.startsWith($clazz.entityName))
+                #set($methname=$c2j.unqualify($queryName))
+                #set($params=$cfg.namedQueries.get($queryName).parameterTypes)
+                #set($argList=$c2j.asFinderArgumentList($params,$clazz))
+                #if($methname.startsWith("find"))
+                    public ${pojo.importType("java.util.List")}<${declarationName}> $methname($argList) {
+                        #elseif ($methname.startsWith("count"))
+                            public int $methname($argList) {
+                            #else
+                                public ${pojo.importType("java.util.List")} $methname($argList) {
+                #end
+                ${pojo.importType("org.hibernate.Query")} query = ${currSession}.getNamedQuery("$queryName");
+                #foreach($param in $params.keySet())
+                    #if($param.equals("maxResults"))
+                        query.setMaxResults(maxResults);
+                        #elseif($param.equals("firstResult"))
+                            query.setFirstResult(firstResult);
+                            #else
+                                query.setParameter("$param", $param);
+                    #end
+                #end
+                #if($methname.startsWith("find"))
+                    return (List<${declarationName}>) query.list();
+                        #elseif ($methname.startsWith("count"))
+                            return ((Integer)query.uniqueResult()).intValue();
+                            #else
+                                return query.list();
+                #end
+                }
+            #end
+        #end
+        }

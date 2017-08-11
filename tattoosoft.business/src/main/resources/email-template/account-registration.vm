@@ -1,0 +1,14 @@
+<html>
+	<body>
+		<p>Welcome to TattooSoft. You are now a member of the most exciting image community in the world. We hope you're going to spend a lot of time here, so log in and get started:</p>
+		<p>Keep this email in a safe place for your records.</p>
+		<p>Your login address: http://tattoosoft.com/web/login</p>
+		<p>Your account number is: $user.id</p>
+		<p>Your username: $user.emailAddress</p>
+		<p>It's a good idea to change your password to something you'll actually remember after you first log in. Click on 'Account Details', then choose 'Change My Password' from the Tools menu on the right.</p>
+		<p>If you have any questions or feedback, you can always reach us through our ticket system.</p>
+		<p>For more information on tattoosoft.com, please visit: http://www.tattoosoft.com/introduction</p>
+		<p>Regards,</p>
+		<p>The team at tattoosoft.com</p>
+	</body>
+</html>
