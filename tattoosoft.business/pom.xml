@@ -6,8 +6,7 @@
 		<artifactId>tattoosoft-service</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>tattoosoft.web</groupId>
-	<artifactId>business</artifactId>
+	<artifactId>tattoosoft.business</artifactId>
 	<name>tattoosoft.business</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,8 +17,8 @@
 			<artifactId>xipilli.common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>tattoosoft.web</groupId>
-			<artifactId>persistence</artifactId>
+			<groupId>com.xipilli</groupId>
+			<artifactId>tattoosoft-persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -45,7 +44,6 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>

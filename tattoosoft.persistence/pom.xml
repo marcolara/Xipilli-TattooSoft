@@ -7,8 +7,7 @@
 		<artifactId>tattoosoft-service</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>tattoosoft.web</groupId>
-	<artifactId>persistence</artifactId>
+	<artifactId>tattoosoft-persistence</artifactId>
 	<name>tattoosoft-persistence</name>
 	<dependencies>
 		<dependency>
