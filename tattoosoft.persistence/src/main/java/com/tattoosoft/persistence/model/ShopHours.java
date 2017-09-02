@@ -20,8 +20,11 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
+import java.sql.Time;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,26 +33,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ShopHours entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "shop_hours", catalog = "tattoosoft")
-public class ShopHours extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ShopHours extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
 	private Integer id;
 	private ShopLocation shopLocation;
 	private DaysOfWeek daysOfWeek;
-	private Date openAt;
-	private Date closeAt;
+	private Time openAt;
+	private Time closeAt;
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
@@ -61,8 +63,8 @@ public class ShopHours extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ShopHours(ShopLocation shopLocation, DaysOfWeek daysOfWeek,
-			Date openAt, Date closeAt, String status, Date createTimestamp) {
+	public ShopHours(ShopLocation shopLocation, DaysOfWeek daysOfWeek, Time openAt, Time closeAt, String status,
+			Date createTimestamp) {
 		this.shopLocation = shopLocation;
 		this.daysOfWeek = daysOfWeek;
 		this.openAt = openAt;
@@ -72,9 +74,8 @@ public class ShopHours extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public ShopHours(ShopLocation shopLocation, DaysOfWeek daysOfWeek,
-			Date openAt, Date closeAt, String status, Date createTimestamp,
-			Date updateTimestamp) {
+	public ShopHours(ShopLocation shopLocation, DaysOfWeek daysOfWeek, Time openAt, Time closeAt, String status,
+			Date createTimestamp, Date updateTimestamp) {
 		this.shopLocation = shopLocation;
 		this.daysOfWeek = daysOfWeek;
 		this.openAt = openAt;
@@ -88,7 +89,9 @@ public class ShopHours extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -99,6 +102,7 @@ public class ShopHours extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_location_id", nullable = false)
+
 	public ShopLocation getShopLocation() {
 		return this.shopLocation;
 	}
@@ -109,6 +113,7 @@ public class ShopHours extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "days_of_week_id", nullable = false)
+
 	public DaysOfWeek getDaysOfWeek() {
 		return this.daysOfWeek;
 	}
@@ -118,24 +123,27 @@ public class ShopHours extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "open_at", nullable = false, length = 8)
-	public Date getOpenAt() {
+
+	public Time getOpenAt() {
 		return this.openAt;
 	}
 
-	public void setOpenAt(Date openAt) {
+	public void setOpenAt(Time openAt) {
 		this.openAt = openAt;
 	}
 
 	@Column(name = "close_at", nullable = false, length = 8)
-	public Date getCloseAt() {
+
+	public Time getCloseAt() {
 		return this.closeAt;
 	}
 
-	public void setCloseAt(Date closeAt) {
+	public void setCloseAt(Time closeAt) {
 		this.closeAt = closeAt;
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -144,7 +152,9 @@ public class ShopHours extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -153,7 +163,9 @@ public class ShopHours extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

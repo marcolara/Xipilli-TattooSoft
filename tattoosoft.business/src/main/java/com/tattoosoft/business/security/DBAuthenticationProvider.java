@@ -35,68 +35,66 @@ import com.tattoosoft.persistence.model.User;
 @Component("authenticationProvider")
 @Transactional
 public class DBAuthenticationProvider implements AuthenticationProvider {
-    @Autowired
-    private UserDAO userDAO;
+	@Autowired
+	private UserDAO userDAO;
 
-    @Autowired
-    private RoleDAO roleDAO;
+	@Autowired
+	private RoleDAO roleDAO;
 
-    @Autowired
-    private PermissionDAO permissionDAO;
+	@Autowired
+	private PermissionDAO permissionDAO;
 
-    @Override
-    public Authentication authenticate(Authentication authentication)
-            throws AuthenticationException {
-        String username = authentication.getName().toUpperCase();
-        String password = (String) authentication.getCredentials();
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String username = authentication.getName().toUpperCase();
+		String password = (String) authentication.getCredentials();
 
-        User user = userDAO.findUniqueByEmailAddress(username);
+		User user = userDAO.findUniqueByEmailAddress(username);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("Username not found.");
-        }
+		if (user == null) {
+			throw new UsernameNotFoundException("Username not found.");
+		}
 
-        // check if the password used was a temp password
-        Timestamp ts = new Timestamp(new Date(System.currentTimeMillis()).getTime());
-        boolean isTempPassword = new BCryptPasswordEncoder().matches(password, user.getTempPsw());
-        if (isTempPassword && ts.after(user.getTempPswExp())) {
-            throw new TempPasswordExpiredException("Temporary password has expired.");
-        }
+		// check if the password used was a temp password
+		Timestamp ts = new Timestamp(new Date(System.currentTimeMillis()).getTime());
+		boolean isTempPassword = new BCryptPasswordEncoder().matches(password, user.getTempPsw());
+		if (isTempPassword && ts.after(user.getTempPswExp())) {
+			throw new TempPasswordExpiredException("Temporary password has expired.");
+		}
 
-        if (!isTempPassword && !new BCryptPasswordEncoder().matches(password, user.getCurrPsw())) {
-            throw new BadCredentialsException("Wrong password.");
-        }
+		if (!isTempPassword && !new BCryptPasswordEncoder().matches(password, user.getCurrPsw())) {
+			throw new BadCredentialsException("Wrong password.");
+		}
 
-        if (user.getBanned()) {
-            throw new LockedException("Account has been locked.");
-        }
+		if (user.getBanned()) {
+			throw new LockedException("Account has been locked.");
+		}
 
-        if (!user.getConfirmed()) {
-            throw new AccountUnconfirmedException("Account is not confirmed.");
-        }
+		if (!user.getConfirmed()) {
+			throw new AccountUnconfirmedException("Account is not confirmed.");
+		}
 
-        if (!IBaseDAO.STATUS_ACTIVE.equals(user.getStatus())) {
-            throw new DisabledException("Account is not active.");
-        }
+		if (!IBaseDAO.STATUS_ACTIVE.equals(user.getStatus())) {
+			throw new DisabledException("Account is not active.");
+		}
 
-        List<Role> roles = roleDAO.findByUsername(user.getEmailAddress());
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        if (roles != null) {
-            for (Role role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getDataKey()));
-            }
-        }
-        return new UsernamePasswordAuthenticationToken(new BusinessUser(user, authorities), password, authorities);
-    }
+		List<Role> roles = roleDAO.findByUsername(user.getEmailAddress());
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		if (roles != null) {
+			for (Role role : roles) {
+				authorities.add(new SimpleGrantedAuthority(role.getDataKey()));
+			}
+		}
+		return new UsernamePasswordAuthenticationToken(new BusinessUser(user, authorities), password, authorities);
+	}
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        // copied it from AbstractUserDetailsAuthenticationProvider
-        return (UsernamePasswordAuthenticationToken.class
-                .isAssignableFrom(authentication));
-    }
+	@Override
+	public boolean supports(Class<?> authentication) {
+		// copied it from AbstractUserDetailsAuthenticationProvider
+		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
+	}
 
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
 }

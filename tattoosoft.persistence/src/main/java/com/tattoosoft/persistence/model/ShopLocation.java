@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,18 +36,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ShopLocation entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "shop_location", catalog = "tattoosoft")
-public class ShopLocation extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ShopLocation extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -61,15 +62,14 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	private String phone;
 	private String fax;
 	private String contactEmail;
-	private byte[] logo;
+	private String logo;
 	private String shopUrl;
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
 	private Set<ShopDiscipline> shopDisciplines = new HashSet<ShopDiscipline>(0);
-	private Set<ShopEmployeeGroup> shopEmployeeGroups = new HashSet<ShopEmployeeGroup>(
-			0);
 	private Set<ShopHours> shopHourses = new HashSet<ShopHours>(0);
+	private Set<ShopEmployeeGroup> shopEmployeeGroups = new HashSet<ShopEmployeeGroup>(0);
 
 	// Constructors
 
@@ -78,10 +78,8 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ShopLocation(Country country,
-			StateProvinceRegion stateProvinceRegion, String name,
-			String address1, String cityTown, String zipPostalCode,
-			String phone, String status, Date createTimestamp) {
+	public ShopLocation(Country country, StateProvinceRegion stateProvinceRegion, String name, String address1,
+			String cityTown, String zipPostalCode, String phone, String status, Date createTimestamp) {
 		this.country = country;
 		this.stateProvinceRegion = stateProvinceRegion;
 		this.name = name;
@@ -94,15 +92,11 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public ShopLocation(Country country,
-			StateProvinceRegion stateProvinceRegion, String name,
-			String description, String address1, String address2,
-			String cityTown, String zipPostalCode, String phone, String fax,
-			String contactEmail, byte[] logo, String shopUrl, String status,
-			Date createTimestamp, Date updateTimestamp,
-			Set<ShopDiscipline> shopDisciplines,
-			Set<ShopEmployeeGroup> shopEmployeeGroups,
-			Set<ShopHours> shopHourses) {
+	public ShopLocation(Country country, StateProvinceRegion stateProvinceRegion, String name, String description,
+			String address1, String address2, String cityTown, String zipPostalCode, String phone, String fax,
+			String contactEmail, String logo, String shopUrl, String status, Date createTimestamp, Date updateTimestamp,
+			Set<ShopDiscipline> shopDisciplines, Set<ShopHours> shopHourses,
+			Set<ShopEmployeeGroup> shopEmployeeGroups) {
 		this.country = country;
 		this.stateProvinceRegion = stateProvinceRegion;
 		this.name = name;
@@ -120,15 +114,17 @@ public class ShopLocation extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 		this.updateTimestamp = updateTimestamp;
 		this.shopDisciplines = shopDisciplines;
-		this.shopEmployeeGroups = shopEmployeeGroups;
 		this.shopHourses = shopHourses;
+		this.shopEmployeeGroups = shopEmployeeGroups;
 	}
 
 	// Property accessors
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -139,6 +135,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "country_id", nullable = false)
+
 	public Country getCountry() {
 		return this.country;
 	}
@@ -149,6 +146,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "state_province_region_id", nullable = false)
+
 	public StateProvinceRegion getStateProvinceRegion() {
 		return this.stateProvinceRegion;
 	}
@@ -158,6 +156,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "name", nullable = false, length = 128)
+
 	public String getName() {
 		return this.name;
 	}
@@ -167,6 +166,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "description")
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -176,6 +176,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "address_1", nullable = false, length = 128)
+
 	public String getAddress1() {
 		return this.address1;
 	}
@@ -185,6 +186,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "address_2", length = 128)
+
 	public String getAddress2() {
 		return this.address2;
 	}
@@ -194,6 +196,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "city_town", nullable = false, length = 128)
+
 	public String getCityTown() {
 		return this.cityTown;
 	}
@@ -203,6 +206,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "zip_postal_code", nullable = false, length = 10)
+
 	public String getZipPostalCode() {
 		return this.zipPostalCode;
 	}
@@ -212,6 +216,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "phone", nullable = false, length = 45)
+
 	public String getPhone() {
 		return this.phone;
 	}
@@ -221,6 +226,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "fax", length = 45)
+
 	public String getFax() {
 		return this.fax;
 	}
@@ -230,6 +236,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "contact_email", length = 200)
+
 	public String getContactEmail() {
 		return this.contactEmail;
 	}
@@ -239,15 +246,17 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "logo")
-	public byte[] getLogo() {
+
+	public String getLogo() {
 		return this.logo;
 	}
 
-	public void setLogo(byte[] logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
 	@Column(name = "shop_url", length = 200)
+
 	public String getShopUrl() {
 		return this.shopUrl;
 	}
@@ -257,6 +266,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -265,7 +275,9 @@ public class ShopLocation extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -274,7 +286,9 @@ public class ShopLocation extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -284,6 +298,7 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "shopLocation")
+
 	public Set<ShopDiscipline> getShopDisciplines() {
 		return this.shopDisciplines;
 	}
@@ -293,21 +308,23 @@ public class ShopLocation extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "shopLocation")
-	public Set<ShopEmployeeGroup> getShopEmployeeGroups() {
-		return this.shopEmployeeGroups;
-	}
 
-	public void setShopEmployeeGroups(Set<ShopEmployeeGroup> shopEmployeeGroups) {
-		this.shopEmployeeGroups = shopEmployeeGroups;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "shopLocation")
 	public Set<ShopHours> getShopHourses() {
 		return this.shopHourses;
 	}
 
 	public void setShopHourses(Set<ShopHours> shopHourses) {
 		this.shopHourses = shopHourses;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "shopLocation")
+
+	public Set<ShopEmployeeGroup> getShopEmployeeGroups() {
+		return this.shopEmployeeGroups;
+	}
+
+	public void setShopEmployeeGroups(Set<ShopEmployeeGroup> shopEmployeeGroups) {
+		this.shopEmployeeGroups = shopEmployeeGroups;
 	}
 
 }

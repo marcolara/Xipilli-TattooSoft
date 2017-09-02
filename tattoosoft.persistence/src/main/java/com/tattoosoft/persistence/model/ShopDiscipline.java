@@ -20,8 +20,10 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,18 +32,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ShopDiscipline entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "shop_discipline", catalog = "tattoosoft")
-public class ShopDiscipline extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ShopDiscipline extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -59,8 +60,7 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ShopDiscipline(ShopLocation shopLocation, Discipline discipline,
-			String status, Date createTimestamp) {
+	public ShopDiscipline(ShopLocation shopLocation, Discipline discipline, String status, Date createTimestamp) {
 		this.shopLocation = shopLocation;
 		this.discipline = discipline;
 		this.status = status;
@@ -68,8 +68,8 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public ShopDiscipline(ShopLocation shopLocation, Discipline discipline,
-			String status, Date createTimestamp, Date updateTimestamp) {
+	public ShopDiscipline(ShopLocation shopLocation, Discipline discipline, String status, Date createTimestamp,
+			Date updateTimestamp) {
 		this.shopLocation = shopLocation;
 		this.discipline = discipline;
 		this.status = status;
@@ -81,7 +81,9 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -92,6 +94,7 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_location_id", nullable = false)
+
 	public ShopLocation getShopLocation() {
 		return this.shopLocation;
 	}
@@ -102,6 +105,7 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "discipline_id", nullable = false)
+
 	public Discipline getDiscipline() {
 		return this.discipline;
 	}
@@ -111,6 +115,7 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -119,7 +124,9 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -128,7 +135,9 @@ public class ShopDiscipline extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

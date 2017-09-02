@@ -20,8 +20,10 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,29 +32,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ShopEmployee entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "shop_employee", catalog = "tattoosoft")
-public class ShopEmployee extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ShopEmployee extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
 	private Integer id;
-	private User user;
 	private ShopEmployeeGroup shopEmployeeGroup;
+	private User user;
 	private String title;
 	private Date hireDate;
 	private Date releaseDate;
 	private Date birthDate;
-	private byte[] picture;
+	private String picture;
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
@@ -64,21 +65,18 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ShopEmployee(User user, ShopEmployeeGroup shopEmployeeGroup,
-			String status, Date createTimestamp) {
-		this.user = user;
+	public ShopEmployee(ShopEmployeeGroup shopEmployeeGroup, User user, String status, Date createTimestamp) {
 		this.shopEmployeeGroup = shopEmployeeGroup;
+		this.user = user;
 		this.status = status;
 		this.createTimestamp = createTimestamp;
 	}
 
 	/** full constructor */
-	public ShopEmployee(User user, ShopEmployeeGroup shopEmployeeGroup,
-			String title, Date hireDate, Date releaseDate, Date birthDate,
-			byte[] picture, String status, Date createTimestamp,
-			Date updateTimestamp) {
-		this.user = user;
+	public ShopEmployee(ShopEmployeeGroup shopEmployeeGroup, User user, String title, Date hireDate, Date releaseDate,
+			Date birthDate, String picture, String status, Date createTimestamp, Date updateTimestamp) {
 		this.shopEmployeeGroup = shopEmployeeGroup;
+		this.user = user;
 		this.title = title;
 		this.hireDate = hireDate;
 		this.releaseDate = releaseDate;
@@ -93,7 +91,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -103,17 +103,8 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_employee_group_id", nullable = false)
+
 	public ShopEmployeeGroup getShopEmployeeGroup() {
 		return this.shopEmployeeGroup;
 	}
@@ -122,7 +113,19 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.shopEmployeeGroup = shopEmployeeGroup;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Column(name = "title", length = 128)
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -131,7 +134,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.title = title;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hire_date", length = 19)
+
 	public Date getHireDate() {
 		return this.hireDate;
 	}
@@ -140,7 +145,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.hireDate = hireDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "release_date", length = 19)
+
 	public Date getReleaseDate() {
 		return this.releaseDate;
 	}
@@ -149,7 +156,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.releaseDate = releaseDate;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "birth_date", length = 19)
+
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
@@ -159,15 +168,17 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "picture")
-	public byte[] getPicture() {
+
+	public String getPicture() {
 		return this.picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -176,7 +187,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -185,7 +198,9 @@ public class ShopEmployee extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

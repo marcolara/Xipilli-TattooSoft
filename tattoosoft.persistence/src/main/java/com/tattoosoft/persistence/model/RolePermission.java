@@ -20,8 +20,10 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,18 +32,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * RolePermission entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "role_permission", catalog = "tattoosoft")
-public class RolePermission extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class RolePermission extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -59,8 +60,7 @@ public class RolePermission extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public RolePermission(Permission permission, Role role, String status,
-			Date createTimestamp) {
+	public RolePermission(Permission permission, Role role, String status, Date createTimestamp) {
 		this.permission = permission;
 		this.role = role;
 		this.status = status;
@@ -68,8 +68,7 @@ public class RolePermission extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public RolePermission(Permission permission, Role role, String status,
-			Date createTimestamp, Date updateTimestamp) {
+	public RolePermission(Permission permission, Role role, String status, Date createTimestamp, Date updateTimestamp) {
 		this.permission = permission;
 		this.role = role;
 		this.status = status;
@@ -81,7 +80,9 @@ public class RolePermission extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -92,6 +93,7 @@ public class RolePermission extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "permission_id", nullable = false)
+
 	public Permission getPermission() {
 		return this.permission;
 	}
@@ -102,6 +104,7 @@ public class RolePermission extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = false)
+
 	public Role getRole() {
 		return this.role;
 	}
@@ -111,6 +114,7 @@ public class RolePermission extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -119,7 +123,9 @@ public class RolePermission extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -128,7 +134,9 @@ public class RolePermission extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

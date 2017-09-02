@@ -92,13 +92,19 @@ public class RegistrationService {
         emailService.sendConfirmationEmail(user);
         return user;
     }
+    
+    public void recoverPasswordByEmail(String email) {
+    	this.recoverPassword(userDAO.findUniqueByEmailAddress(email));
+    }
 
     public void recoverPassword(User user) {
-        String tmpPassword = RandomStringUtils.randomAscii(8);
-        user.setTempPsw(new BCryptPasswordEncoder().encode(tmpPassword));
-        user.setTempPswExp(new Timestamp(new Date(System.currentTimeMillis()+2520*60*1000).getTime()));
-        userDAO.attachDirty(user);
-        emailService.sendPasswordRecoveryEmail(tmpPassword, user);
+    	if (user != null){
+            String tmpPassword = RandomStringUtils.randomAscii(8);
+            user.setTempPsw(new BCryptPasswordEncoder().encode(tmpPassword));
+            user.setTempPswExp(new Timestamp(new Date(System.currentTimeMillis()+2520*60*1000).getTime()));
+            userDAO.attachDirty(user);
+            emailService.sendPasswordRecoveryEmail(tmpPassword, user);
+    	}
     }
 
     public void confirmAccountByEmail(String email) {

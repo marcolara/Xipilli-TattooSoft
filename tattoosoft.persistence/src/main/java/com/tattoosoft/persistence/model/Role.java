@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,19 +34,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * Role entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "role", catalog = "tattoosoft", uniqueConstraints = @UniqueConstraint(columnNames = "data_key"))
-public class Role extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class Role extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -66,8 +67,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public Role(String dataKey, String dataName, String status,
-			Date createTimestamp) {
+	public Role(String dataKey, String dataName, String status, Date createTimestamp) {
 		this.dataKey = dataKey;
 		this.dataName = dataName;
 		this.status = status;
@@ -75,10 +75,9 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public Role(String dataKey, String dataName, String description,
-			String status, Date createTimestamp, Date updateTimestamp,
-			Set<RolePermission> rolePermissions,
-			Set<ProfileField> profileFields, Set<UserRole> userRoles) {
+	public Role(String dataKey, String dataName, String description, String status, Date createTimestamp,
+			Date updateTimestamp, Set<RolePermission> rolePermissions, Set<ProfileField> profileFields,
+			Set<UserRole> userRoles) {
 		this.dataKey = dataKey;
 		this.dataName = dataName;
 		this.description = description;
@@ -94,7 +93,9 @@ public class Role extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -104,6 +105,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_key", unique = true, nullable = false, length = 100)
+
 	public String getDataKey() {
 		return this.dataKey;
 	}
@@ -113,6 +115,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_name", nullable = false, length = 120)
+
 	public String getDataName() {
 		return this.dataName;
 	}
@@ -122,6 +125,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "description")
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -131,6 +135,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -139,7 +144,9 @@ public class Role extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -148,7 +155,9 @@ public class Role extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -158,6 +167,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+
 	public Set<RolePermission> getRolePermissions() {
 		return this.rolePermissions;
 	}
@@ -167,6 +177,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+
 	public Set<ProfileField> getProfileFields() {
 		return this.profileFields;
 	}
@@ -176,6 +187,7 @@ public class Role extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+
 	public Set<UserRole> getUserRoles() {
 		return this.userRoles;
 	}

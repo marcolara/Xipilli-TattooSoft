@@ -4,6 +4,7 @@
 <hibernate-reverse-engineering>
 <type-mapping>
 	<sql-type jdbc-type="BLOB" hibernate-type="java.sql.Blob"></sql-type>
+	<sql-type jdbc-type="TIMESTAMP" hibernate-type="java.util.Date"></sql-type>
 </type-mapping>
 
 

@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,18 +34,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * DaysOfWeek entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "days_of_week", catalog = "tattoosoft")
-public class DaysOfWeek extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class DaysOfWeek extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -63,8 +64,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public DaysOfWeek(String abbreviation, String fullName, String isWeekday,
-			String status, Date createTimestamp) {
+	public DaysOfWeek(String abbreviation, String fullName, String isWeekday, String status, Date createTimestamp) {
 		this.abbreviation = abbreviation;
 		this.fullName = fullName;
 		this.isWeekday = isWeekday;
@@ -73,9 +73,8 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public DaysOfWeek(String abbreviation, String fullName, String isWeekday,
-			String status, Date createTimestamp, Date updateTimestamp,
-			Set<ShopHours> shopHourses) {
+	public DaysOfWeek(String abbreviation, String fullName, String isWeekday, String status, Date createTimestamp,
+			Date updateTimestamp, Set<ShopHours> shopHourses) {
 		this.abbreviation = abbreviation;
 		this.fullName = fullName;
 		this.isWeekday = isWeekday;
@@ -89,7 +88,9 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -99,6 +100,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "abbreviation", nullable = false, length = 3)
+
 	public String getAbbreviation() {
 		return this.abbreviation;
 	}
@@ -108,6 +110,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "full_name", nullable = false, length = 45)
+
 	public String getFullName() {
 		return this.fullName;
 	}
@@ -117,6 +120,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "is_weekday", nullable = false, length = 1)
+
 	public String getIsWeekday() {
 		return this.isWeekday;
 	}
@@ -126,6 +130,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -134,7 +139,9 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -143,7 +150,9 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -153,6 +162,7 @@ public class DaysOfWeek extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "daysOfWeek")
+
 	public Set<ShopHours> getShopHourses() {
 		return this.shopHourses;
 	}

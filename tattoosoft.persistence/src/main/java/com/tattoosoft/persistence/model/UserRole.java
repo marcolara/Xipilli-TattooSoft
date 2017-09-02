@@ -20,8 +20,10 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,18 +32,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * UserRole entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "user_role", catalog = "tattoosoft")
-public class UserRole extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class UserRole extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -67,8 +68,7 @@ public class UserRole extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public UserRole(User user, Role role, String status, Date createTimestamp,
-			Date updateTimestamp) {
+	public UserRole(User user, Role role, String status, Date createTimestamp, Date updateTimestamp) {
 		this.user = user;
 		this.role = role;
 		this.status = status;
@@ -80,7 +80,9 @@ public class UserRole extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -91,6 +93,7 @@ public class UserRole extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
+
 	public User getUser() {
 		return this.user;
 	}
@@ -101,6 +104,7 @@ public class UserRole extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = false)
+
 	public Role getRole() {
 		return this.role;
 	}
@@ -110,6 +114,7 @@ public class UserRole extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -118,7 +123,9 @@ public class UserRole extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -127,7 +134,9 @@ public class UserRole extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,18 +36,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ProfileField entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "profile_field", catalog = "tattoosoft")
-public class ProfileField extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ProfileField extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -57,8 +58,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
-	private Set<UserProfileData> userProfileDatas = new HashSet<UserProfileData>(
-			0);
+	private Set<UserProfileData> userProfileDatas = new HashSet<UserProfileData>(0);
 
 	// Constructors
 
@@ -67,8 +67,8 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ProfileField(Role role, String fieldName, String fieldType,
-			Integer sortOrder, String status, Date createTimestamp) {
+	public ProfileField(Role role, String fieldName, String fieldType, Integer sortOrder, String status,
+			Date createTimestamp) {
 		this.role = role;
 		this.fieldName = fieldName;
 		this.fieldType = fieldType;
@@ -78,9 +78,8 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public ProfileField(Role role, String fieldName, String fieldType,
-			Integer sortOrder, String status, Date createTimestamp,
-			Date updateTimestamp, Set<UserProfileData> userProfileDatas) {
+	public ProfileField(Role role, String fieldName, String fieldType, Integer sortOrder, String status,
+			Date createTimestamp, Date updateTimestamp, Set<UserProfileData> userProfileDatas) {
 		this.role = role;
 		this.fieldName = fieldName;
 		this.fieldType = fieldType;
@@ -95,7 +94,9 @@ public class ProfileField extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -106,6 +107,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = false)
+
 	public Role getRole() {
 		return this.role;
 	}
@@ -115,6 +117,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "field_name", nullable = false, length = 45)
+
 	public String getFieldName() {
 		return this.fieldName;
 	}
@@ -124,6 +127,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "field_type", nullable = false, length = 128)
+
 	public String getFieldType() {
 		return this.fieldType;
 	}
@@ -133,6 +137,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "sort_order", nullable = false)
+
 	public Integer getSortOrder() {
 		return this.sortOrder;
 	}
@@ -142,6 +147,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -150,7 +156,9 @@ public class ProfileField extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -159,7 +167,9 @@ public class ProfileField extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -169,6 +179,7 @@ public class ProfileField extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profileField")
+
 	public Set<UserProfileData> getUserProfileDatas() {
 		return this.userProfileDatas;
 	}

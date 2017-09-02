@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,18 +34,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * ServiceGroup entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "service_group", catalog = "tattoosoft")
-public class ServiceGroup extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class ServiceGroup extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -63,8 +64,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public ServiceGroup(String code, String name, String status,
-			Date createTimestamp) {
+	public ServiceGroup(String code, String name, String status, Date createTimestamp) {
 		this.code = code;
 		this.name = name;
 		this.status = status;
@@ -72,9 +72,8 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public ServiceGroup(String code, String name, String description,
-			String status, Date createTimestamp, Date updateTimestamp,
-			Set<Discipline> disciplines) {
+	public ServiceGroup(String code, String name, String description, String status, Date createTimestamp,
+			Date updateTimestamp, Set<Discipline> disciplines) {
 		this.code = code;
 		this.name = name;
 		this.description = description;
@@ -88,7 +87,9 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -98,6 +99,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "code", nullable = false, length = 45)
+
 	public String getCode() {
 		return this.code;
 	}
@@ -107,6 +109,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "name", nullable = false, length = 128)
+
 	public String getName() {
 		return this.name;
 	}
@@ -116,6 +119,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "description")
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -125,6 +129,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -133,7 +138,9 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -142,7 +149,9 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -152,6 +161,7 @@ public class ServiceGroup extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serviceGroup")
+
 	public Set<Discipline> getDisciplines() {
 		return this.disciplines;
 	}

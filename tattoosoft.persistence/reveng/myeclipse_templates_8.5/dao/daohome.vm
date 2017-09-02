@@ -37,7 +37,7 @@ $pojo.getPackageDeclaration()
     * - tattoosoft-persistence\reveng\tattoosoft-myeclipse_templates_8.5\dao\daohome.vm
     */
     #set($className="${declarationName}DAO")
-    public class $className extends $pojo.importType("xipilli.persistence.dao.AbstractBaseDAO")<${declarationName}> {
+    public class $className extends $pojo.importType("com.xipilli.persistence.dao.AbstractBaseDAO")<${declarationName}> {
         //<revengLogSuppress/>
         @SuppressWarnings("unused")
         private static final $pojo.importType("org.slf4j.Logger") log = ${pojo.importType("org.slf4j.LoggerFactory")}.getLogger(${className}.class);

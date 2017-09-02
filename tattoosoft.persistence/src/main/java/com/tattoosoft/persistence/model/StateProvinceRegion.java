@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,18 +36,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * StateProvinceRegion entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "state_province_region", catalog = "tattoosoft")
-public class StateProvinceRegion extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class StateProvinceRegion extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -65,8 +66,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public StateProvinceRegion(Country country, String dataKey,
-			String dataName, String status, Date createTimestamp) {
+	public StateProvinceRegion(Country country, String dataKey, String dataName, String status, Date createTimestamp) {
 		this.country = country;
 		this.dataKey = dataKey;
 		this.dataName = dataName;
@@ -75,8 +75,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public StateProvinceRegion(Country country, String dataKey,
-			String dataName, String status, Date createTimestamp,
+	public StateProvinceRegion(Country country, String dataKey, String dataName, String status, Date createTimestamp,
 			Date updateTimestamp, Set<ShopLocation> shopLocations) {
 		this.country = country;
 		this.dataKey = dataKey;
@@ -91,7 +90,9 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -102,6 +103,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "country_id", nullable = false)
+
 	public Country getCountry() {
 		return this.country;
 	}
@@ -111,6 +113,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_key", nullable = false, length = 45)
+
 	public String getDataKey() {
 		return this.dataKey;
 	}
@@ -120,6 +123,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_name", nullable = false, length = 200)
+
 	public String getDataName() {
 		return this.dataName;
 	}
@@ -129,6 +133,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -137,7 +142,9 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -146,7 +153,9 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -156,6 +165,7 @@ public class StateProvinceRegion extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stateProvinceRegion")
+
 	public Set<ShopLocation> getShopLocations() {
 		return this.shopLocations;
 	}

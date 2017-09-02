@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,18 +36,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * Discipline entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "discipline", catalog = "tattoosoft")
-public class Discipline extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class Discipline extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -65,8 +66,7 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public Discipline(ServiceGroup serviceGroup, String code, String name,
-			String status, Date createTimestamp) {
+	public Discipline(ServiceGroup serviceGroup, String code, String name, String status, Date createTimestamp) {
 		this.serviceGroup = serviceGroup;
 		this.code = code;
 		this.name = name;
@@ -75,9 +75,8 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public Discipline(ServiceGroup serviceGroup, String code, String name,
-			String status, Date createTimestamp, Date updateTimestamp,
-			Set<ShopDiscipline> shopDisciplines) {
+	public Discipline(ServiceGroup serviceGroup, String code, String name, String status, Date createTimestamp,
+			Date updateTimestamp, Set<ShopDiscipline> shopDisciplines) {
 		this.serviceGroup = serviceGroup;
 		this.code = code;
 		this.name = name;
@@ -91,7 +90,9 @@ public class Discipline extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -102,6 +103,7 @@ public class Discipline extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "service_group_id", nullable = false)
+
 	public ServiceGroup getServiceGroup() {
 		return this.serviceGroup;
 	}
@@ -111,6 +113,7 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "code", nullable = false, length = 45)
+
 	public String getCode() {
 		return this.code;
 	}
@@ -120,6 +123,7 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "name", nullable = false, length = 128)
+
 	public String getName() {
 		return this.name;
 	}
@@ -129,6 +133,7 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -137,7 +142,9 @@ public class Discipline extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -146,7 +153,9 @@ public class Discipline extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -156,6 +165,7 @@ public class Discipline extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "discipline")
+
 	public Set<ShopDiscipline> getShopDisciplines() {
 		return this.shopDisciplines;
 	}

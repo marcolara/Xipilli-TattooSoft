@@ -20,10 +20,12 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,19 +34,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * Country entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "country", catalog = "tattoosoft", uniqueConstraints = @UniqueConstraint(columnNames = "data_key"))
-public class Country extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class Country extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -54,9 +55,8 @@ public class Country extends AbstractPersistentEntity implements
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
-	private Set<StateProvinceRegion> stateProvinceRegions = new HashSet<StateProvinceRegion>(
-			0);
 	private Set<ShopLocation> shopLocations = new HashSet<ShopLocation>(0);
+	private Set<StateProvinceRegion> stateProvinceRegions = new HashSet<StateProvinceRegion>(0);
 
 	// Constructors
 
@@ -65,8 +65,7 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public Country(String dataKey, String dataName, String status,
-			Date createTimestamp) {
+	public Country(String dataKey, String dataName, String status, Date createTimestamp) {
 		this.dataKey = dataKey;
 		this.dataName = dataName;
 		this.status = status;
@@ -74,24 +73,24 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public Country(String dataKey, String dataName, String status,
-			Date createTimestamp, Date updateTimestamp,
-			Set<StateProvinceRegion> stateProvinceRegions,
-			Set<ShopLocation> shopLocations) {
+	public Country(String dataKey, String dataName, String status, Date createTimestamp, Date updateTimestamp,
+			Set<ShopLocation> shopLocations, Set<StateProvinceRegion> stateProvinceRegions) {
 		this.dataKey = dataKey;
 		this.dataName = dataName;
 		this.status = status;
 		this.createTimestamp = createTimestamp;
 		this.updateTimestamp = updateTimestamp;
-		this.stateProvinceRegions = stateProvinceRegions;
 		this.shopLocations = shopLocations;
+		this.stateProvinceRegions = stateProvinceRegions;
 	}
 
 	// Property accessors
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -101,6 +100,7 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_key", unique = true, nullable = false, length = 3)
+
 	public String getDataKey() {
 		return this.dataKey;
 	}
@@ -110,6 +110,7 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "data_name", nullable = false, length = 120)
+
 	public String getDataName() {
 		return this.dataName;
 	}
@@ -119,6 +120,7 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -127,7 +129,9 @@ public class Country extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -136,7 +140,9 @@ public class Country extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}
@@ -146,22 +152,23 @@ public class Country extends AbstractPersistentEntity implements
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "country")
-	public Set<StateProvinceRegion> getStateProvinceRegions() {
-		return this.stateProvinceRegions;
-	}
 
-	public void setStateProvinceRegions(
-			Set<StateProvinceRegion> stateProvinceRegions) {
-		this.stateProvinceRegions = stateProvinceRegions;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "country")
 	public Set<ShopLocation> getShopLocations() {
 		return this.shopLocations;
 	}
 
 	public void setShopLocations(Set<ShopLocation> shopLocations) {
 		this.shopLocations = shopLocations;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "country")
+
+	public Set<StateProvinceRegion> getStateProvinceRegions() {
+		return this.stateProvinceRegions;
+	}
+
+	public void setStateProvinceRegions(Set<StateProvinceRegion> stateProvinceRegions) {
+		this.stateProvinceRegions = stateProvinceRegions;
 	}
 
 }

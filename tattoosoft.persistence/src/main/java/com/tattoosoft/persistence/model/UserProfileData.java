@@ -20,8 +20,10 @@
  **/
 package com.tattoosoft.persistence.model;
 
+import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import com.xipilli.persistence.model.AbstractPersistentEntity;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,18 +32,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-
-import com.xipilli.persistence.model.AbstractPersistentEntity;
 
 /**
  * UserProfileData entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "user_profile_data", catalog = "tattoosoft")
-public class UserProfileData extends AbstractPersistentEntity implements
-		java.io.Serializable {
+
+public class UserProfileData extends AbstractPersistentEntity implements java.io.Serializable {
 
 	// Fields
 
@@ -49,7 +50,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	private User user;
 	private ProfileField profileField;
 	private String textValue;
-	private byte[] blobValue;
+	private String blobValue;
 	private String status;
 	private Date createTimestamp;
 	private Date updateTimestamp;
@@ -61,8 +62,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	}
 
 	/** minimal constructor */
-	public UserProfileData(User user, ProfileField profileField, String status,
-			Date createTimestamp) {
+	public UserProfileData(User user, ProfileField profileField, String status, Date createTimestamp) {
 		this.user = user;
 		this.profileField = profileField;
 		this.status = status;
@@ -70,8 +70,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	}
 
 	/** full constructor */
-	public UserProfileData(User user, ProfileField profileField,
-			String textValue, byte[] blobValue, String status,
+	public UserProfileData(User user, ProfileField profileField, String textValue, String blobValue, String status,
 			Date createTimestamp, Date updateTimestamp) {
 		this.user = user;
 		this.profileField = profileField;
@@ -86,7 +85,9 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@Id
 	@GeneratedValue(generator = "generator")
+
 	@Column(name = "id", unique = true, nullable = false)
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -97,6 +98,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
+
 	public User getUser() {
 		return this.user;
 	}
@@ -107,6 +109,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "profile_id", nullable = false)
+
 	public ProfileField getProfileField() {
 		return this.profileField;
 	}
@@ -116,6 +119,7 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "text_value", length = 16777215)
+
 	public String getTextValue() {
 		return this.textValue;
 	}
@@ -125,15 +129,17 @@ public class UserProfileData extends AbstractPersistentEntity implements
 	}
 
 	@Column(name = "blob_value")
-	public byte[] getBlobValue() {
+
+	public String getBlobValue() {
 		return this.blobValue;
 	}
 
-	public void setBlobValue(byte[] blobValue) {
+	public void setBlobValue(String blobValue) {
 		this.blobValue = blobValue;
 	}
 
 	@Column(name = "status", nullable = false, length = 1)
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -142,7 +148,9 @@ public class UserProfileData extends AbstractPersistentEntity implements
 		this.status = status;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_timestamp", nullable = false, length = 19)
+
 	public Date getCreateTimestamp() {
 		return this.createTimestamp;
 	}
@@ -151,7 +159,9 @@ public class UserProfileData extends AbstractPersistentEntity implements
 		this.createTimestamp = createTimestamp;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "update_timestamp", length = 19)
+
 	public Date getUpdateTimestamp() {
 		return this.updateTimestamp;
 	}

@@ -7,7 +7,7 @@
 #end
 $pojo.getClassJavaDoc($render.eval($ctx, $jdoc),0)
  */
-	#set($_ape=$pojo.importType("xipilli.persistence.model.AbstractPersistentEntity"))
+	#set($_ape=$pojo.importType("com.xipilli.persistence.model.AbstractPersistentEntity"))
   	#set($extendsDeclaration="extends $_ape")
 $templates.Ejb3TypeDeclaration
 $pojo.getClassModifiers() $pojo.getDeclarationType() $pojo.getDeclarationName() $extendsDeclaration $pojo.getImplementsDeclaration()
