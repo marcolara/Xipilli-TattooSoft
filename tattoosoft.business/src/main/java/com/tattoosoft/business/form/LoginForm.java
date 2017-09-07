@@ -15,16 +15,16 @@ import com.tattoosoft.business.validation.annotation.FieldCredentials;
     @FieldCredentials(first = "emailAddress", second = "password", message = "Invalid credentials")
 })
 public class LoginForm {
-    @NotNull
-    @Size(min = 2, max = 254)
-    @Length(max = 254)
+    @NotNull(message = "required")
+    @Size(min = 6, max = 254, message = "constraints_size")
+    @Length(max = 254, message = "minlength")
     @EmailRegistered
-    @Email
+    @Email(message = "email")
     private String emailAddress;
 
-    @NotNull
-    @Length(max = 12)
-    @Size(min = 7, max = 12)
+    @NotNull(message = "required")
+    @Length(max = 12, message = "minlength")
+    @Size(min = 7, max = 12, message = "constraints_size")
     private String	password;
 
     private boolean rememberMe;

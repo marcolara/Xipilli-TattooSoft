@@ -23,7 +23,7 @@ import com.tattoosoft.business.validation.constraint.EmailRegisteredValidator;
 @Retention(RUNTIME)
 @ReportAsSingleViolation
 public @interface EmailRegistered {
-	public abstract String message() default "val@EmailRegistered";
+	public abstract String message() default "email_registered";
 
 	public abstract Class<?>[] groups() default {};
 

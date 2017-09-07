@@ -20,7 +20,7 @@ import com.tattoosoft.business.validation.constraint.EmailNotRegisteredValidator
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
 public @interface EmailNotRegistered {
-    public abstract String message() default "val@noEmailRegistered";
+    public abstract String message() default "email_not_registered";
     public abstract Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default { };
 }

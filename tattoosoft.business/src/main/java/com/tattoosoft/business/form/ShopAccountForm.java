@@ -23,7 +23,7 @@ public class ShopAccountForm {
     @Size(min = 2, max = 254, message="size")
     @Email
     @Pattern(regexp=".+@.+\\..+", message="email")
-    @EmailNotRegistered(message = "notEmailRegistered")
+    @EmailNotRegistered
     protected String emailAddress;
 
     @NotNull

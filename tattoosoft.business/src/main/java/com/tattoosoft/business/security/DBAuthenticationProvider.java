@@ -21,16 +21,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.xipilli.persistence.dao.IBaseDAO;
 import com.tattoosoft.business.exception.TempPasswordExpiredException;
+import com.tattoosoft.business.exception.TempPasswordUsedException;
 import com.tattoosoft.business.model.BusinessUser;
 import com.tattoosoft.business.security.exception.AccountUnconfirmedException;
 import com.tattoosoft.persistence.dao.PermissionDAO;
 import com.tattoosoft.persistence.dao.RoleDAO;
 import com.tattoosoft.persistence.dao.UserDAO;
-import com.tattoosoft.persistence.model.Permission;
 import com.tattoosoft.persistence.model.Role;
 import com.tattoosoft.persistence.model.User;
+import com.xipilli.persistence.dao.IBaseDAO;
 
 @Component("authenticationProvider")
 @Transactional
@@ -61,6 +61,10 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
 		if (isTempPassword && ts.after(user.getTempPswExp())) {
 			throw new TempPasswordExpiredException("Temporary password has expired.");
 		}
+		
+		if (isTempPassword && user.getTempPswUsed()){
+			throw new TempPasswordUsedException("One-time temporary password has been used.");
+		}
 
 		if (!isTempPassword && !new BCryptPasswordEncoder().matches(password, user.getCurrPsw())) {
 			throw new BadCredentialsException("Wrong password.");
@@ -76,6 +80,11 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
 
 		if (!IBaseDAO.STATUS_ACTIVE.equals(user.getStatus())) {
 			throw new DisabledException("Account is not active.");
+		}
+
+		if (isTempPassword) {
+			user.setTempPswUsed(true);
+			this.userDAO.attachDirty(user);
 		}
 
 		List<Role> roles = roleDAO.findByUsername(user.getEmailAddress());

@@ -11,11 +11,11 @@ import com.tattoosoft.business.validation.annotation.EmailRegistered;
 
 @Component("forgotPasswordForm")
 public class ForgotPasswordForm {
-    @NotNull
-    @Size(min = 4, max = 254)
-    @Length(max = 254)
+    @NotNull(message = "required")
+    @Size(min = 6, max = 254, message = "constraints_size")
+    @Length(max = 254, message = "minlength") 
     @EmailRegistered
-    @Email
+    @Email(message = "email")
     protected String emailAddress;
 
     public String getEmailAddress() {

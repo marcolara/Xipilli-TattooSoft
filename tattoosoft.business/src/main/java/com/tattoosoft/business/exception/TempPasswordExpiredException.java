@@ -1,7 +1,9 @@
 package com.tattoosoft.business.exception;
 
-public class TempPasswordExpiredException extends BusinessException {
-    private static final long serialVersionUID = 4520445567761760760L;
+import org.springframework.security.core.AuthenticationException;
+
+public class TempPasswordExpiredException extends AuthenticationException {
+    private static final long serialVersionUID = 1L;
 
     public TempPasswordExpiredException(String msg) {
         super(msg);
