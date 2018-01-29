@@ -14,11 +14,11 @@ import com.tattoosoft.business.form.field.ProfileFormField;
 import com.tattoosoft.business.validation.annotation.FieldMatch;
 import com.tattoosoft.business.validation.annotation.EmailNotRegistered;
 
-@Component("shopAccountForm")
+@Component("AccountForm")
 @FieldMatch.List({
     @FieldMatch(first = "accountPassword", second = "confirmPassword", message = "fieldMatch")
 })
-public class ShopAccountForm {
+public class AccountForm {
     @NotNull
     @Size(min = 2, max = 254, message="size")
     @Email

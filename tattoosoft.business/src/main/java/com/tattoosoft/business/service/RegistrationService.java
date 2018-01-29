@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xipilli.persistence.dao.IBaseDAO;
-import com.tattoosoft.business.form.ShopAccountForm;
+import com.tattoosoft.business.form.AccountForm;
 import com.tattoosoft.business.form.field.ProfileFormField;
 import com.tattoosoft.persistence.dao.CountryDAO;
 import com.tattoosoft.persistence.dao.ProfileFieldDAO;
@@ -62,7 +62,7 @@ public class RegistrationService {
     @Qualifier("encoder")
     BCryptPasswordEncoder encoder;
 
-    public User registerAccount(ShopAccountForm form) {
+    public User registerAccount(AccountForm form) {
         // if the user is not registered
         User user = userDAO.findUniqueByProperty(UserDAO.EMAIL_ADDRESS, form.getEmailAddress());
         if (user == null) {
