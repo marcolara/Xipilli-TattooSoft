@@ -23,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tattoosoft.business.exception.TempPasswordExpiredException;
 import com.tattoosoft.business.exception.TempPasswordUsedException;
-import com.tattoosoft.business.model.BusinessUser;
 import com.tattoosoft.business.security.exception.AccountUnconfirmedException;
-import com.tattoosoft.persistence.dao.PermissionDAO;
 import com.tattoosoft.persistence.dao.RoleDAO;
 import com.tattoosoft.persistence.dao.UserDAO;
 import com.tattoosoft.persistence.model.Role;
@@ -40,9 +38,6 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	private RoleDAO roleDAO;
-
-	@Autowired
-	private PermissionDAO permissionDAO;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -94,7 +89,7 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
 				authorities.add(new SimpleGrantedAuthority(role.getDataKey()));
 			}
 		}
-		return new UsernamePasswordAuthenticationToken(new BusinessUser(user, authorities), password, authorities);
+		return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(user.getEmailAddress(), user.getCurrPsw(), authorities), password, authorities);
 	}
 
 	@Override

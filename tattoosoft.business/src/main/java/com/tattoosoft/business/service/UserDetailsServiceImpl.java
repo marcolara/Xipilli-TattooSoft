@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tattoosoft.business.model.BusinessUser;
 import com.tattoosoft.persistence.dao.RoleDAO;
 import com.tattoosoft.persistence.dao.UserDAO;
 import com.tattoosoft.persistence.model.Role;
@@ -31,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private RoleDAO roleDAO;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public org.springframework.security.core.userdetails.User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDAO.findUniqueByProperty(UserDAO.EMAIL_ADDRESS, username.toUpperCase());
         if (user == null) {
             throw new UsernameNotFoundException("Username not found.");
@@ -43,6 +41,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authorities.add(new SimpleGrantedAuthority(role.getDataKey()));
             }
         }
-        return new BusinessUser(user, authorities);
+        return new org.springframework.security.core.userdetails.User(user.getEmailAddress(), "***", authorities);
 	}
 }
